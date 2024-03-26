@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AxiosRequestConfig } from 'axios';
 import { firstValueFrom, map } from 'rxjs';
-import { sebSwedenRoute } from '../../../common/constants/seb-sweden-route.const';
+import { sebSwedenRoute } from '../../../common/constants/bank/seb-sweden-route.const';
 import { randomUUID } from 'node:crypto';
 import { CreateSebSwedenCreatePaymentRequest } from './interfaces/seb-sweden-create-payment-request.interface';
 import { BankPayment } from '../../../common/interfaces/bank-payment.interface';

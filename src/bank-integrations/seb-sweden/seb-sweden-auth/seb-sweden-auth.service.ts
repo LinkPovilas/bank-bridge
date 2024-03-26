@@ -4,7 +4,7 @@ import { ConfigType } from '@nestjs/config';
 import { SebSwedenTokenResponse } from './interfaces/seb-sweden-token-response.interface';
 import { firstValueFrom, map } from 'rxjs';
 import { AxiosRequestConfig } from 'axios';
-import { sebSwedenRoute } from '../../../common/constants/seb-sweden-route.const';
+import { sebSwedenRoute } from '../../../common/constants/bank/seb-sweden-route.const';
 import { BankAuthDto } from '../../../common/dto/bank-auth-response.dto';
 import { BankAuthRedirectDto } from '../../../common/dto/bank-auth-redirect.dto';
 import { HttpClientService } from '../../../common/utils/http/http-client.service';

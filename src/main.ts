@@ -11,7 +11,6 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
-  app.setGlobalPrefix('bank-bridge');
   app.enableVersioning({
     type: VersioningType.URI,
   });
@@ -26,6 +25,7 @@ async function bootstrap() {
     .setTitle('Bank bridge')
     .setDescription('Bank bridge API')
     .setVersion('1.0')
+    .addBasicAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -7,6 +7,4 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    env_file:
-      - path: ./.env.development
+      POSTGRES_PASSWORD: admin
