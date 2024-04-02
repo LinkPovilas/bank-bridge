@@ -1,9 +1,13 @@
 import { Controller, Get, Headers } from '@nestjs/common';
 import { SebSwedenAccountsService } from './seb-sweden-accounts.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 import { HeaderName } from '../../../common/enums/header-name.enum';
+import { Roles } from '../../../common/decorators/roles.decorator';
+import { Role } from '../../../common/enums/role.enum';
 
+@ApiBasicAuth()
 @ApiTags('seb-sweden')
+@Roles(Role.SERVICE)
 @Controller({ version: '1' })
 export class SebSwedenAccountsController {
   constructor(

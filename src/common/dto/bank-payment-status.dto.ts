@@ -1,5 +1,5 @@
-import { Exclude, Expose, Transform } from 'class-transformer';
-import { mapToBankPaymentStatus } from '../utils/bank/bank-payment.utils';
+import { Exclude, Expose } from 'class-transformer';
+import { BankPaymentStatus } from '../enums/bank-payment-status.enum';
 
 @Exclude()
 export class BankPaymentStatusDto {
@@ -7,8 +7,7 @@ export class BankPaymentStatusDto {
   paymentId: string;
 
   @Expose()
-  @Transform(({ value }) => mapToBankPaymentStatus(value))
-  status: string;
+  status: BankPaymentStatus;
 
   constructor(data: BankPaymentStatusDto) {
     Object.assign(this, data);

@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { SebSwedenModule } from './bank-integrations/seb-sweden/seb-sweden.module';
 import { CommonModule } from './common/common.module';
 import { LoggerModule } from 'nestjs-pino';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -13,6 +15,17 @@ import { LoggerModule } from 'nestjs-pino';
       envFilePath: '.env.development',
       cache: true,
       expandVariables: true,
+    }),
+    // TODO: Move to config
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      database: 'postgres',
+      username: 'postgres',
+      password: 'admin',
+      autoLoadEntities: true,
+      synchronize: true,
     }),
     LoggerModule.forRoot({
       pinoHttp: {
@@ -27,6 +40,7 @@ import { LoggerModule } from 'nestjs-pino';
     BanksModule,
     SebSwedenModule,
     CommonModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

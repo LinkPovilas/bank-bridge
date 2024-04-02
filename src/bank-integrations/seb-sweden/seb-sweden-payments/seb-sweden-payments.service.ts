@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AxiosRequestConfig } from 'axios';
 import { firstValueFrom, map } from 'rxjs';
-import { sebSwedenRoute } from '../../../common/constants/seb-sweden-route.const';
+import { sebSwedenRoute } from '../../../common/constants/bank/seb-sweden-route.const';
 import { randomUUID } from 'node:crypto';
 import { CreateSebSwedenCreatePaymentRequest } from './interfaces/seb-sweden-create-payment-request.interface';
 import { BankPayment } from '../../../common/interfaces/bank-payment.interface';
@@ -19,6 +19,7 @@ import { BankPaymentAuthorizationInfoDto } from '../../../common/dto/bank-paymen
 import { SebSwedenPaymentAuthorizationInfo } from './interfaces/seb-sweden-payment-authorization-info.interface';
 import { BankPaymentAuthorizationMethodsDto } from '../../../common/dto/bank-payment-authorization-methods.dto';
 import { HttpClientService } from '../../../common/utils/http/http-client.service';
+import { BankStatusMappingService } from '../../../common/utils/bank-status-mapping/bank-status-mapping.service';
 
 @Injectable()
 export class SebSwedenPaymentsService {
@@ -26,6 +27,7 @@ export class SebSwedenPaymentsService {
     private readonly httpClient: HttpClientService,
     @Inject(sebSwedenConfig.KEY)
     private readonly bankConfig: ConfigType<typeof sebSwedenConfig>,
+    private readonly bankStatusMappingService: BankStatusMappingService,
   ) {}
 
   createPayment(
@@ -154,7 +156,10 @@ export class SebSwedenPaymentsService {
             ({ paymentId, transactionStatus }) =>
               new BankPaymentStatusDto({
                 paymentId,
-                status: transactionStatus,
+                status:
+                  this.bankStatusMappingService.mapPaymentStatus(
+                    transactionStatus,
+                  ),
               }),
           ),
         ),
@@ -193,7 +198,10 @@ export class SebSwedenPaymentsService {
             ({ authorisationId, scaStatus, chosenScaMethod }) =>
               new BankPaymentAuthorizationDto({
                 authorisationId,
-                status: scaStatus,
+                status:
+                  this.bankStatusMappingService.mapPaymentAuthorizationStatus(
+                    scaStatus,
+                  ),
                 chosenScaMethod: chosenScaMethod?.authenticationMethodId,
               }),
           ),
@@ -225,16 +233,20 @@ export class SebSwedenPaymentsService {
         )
         .pipe(
           map(({ data }) => data),
-          map(({ authorisationId, scaStatus, chosenScaMethod, _links }) => {
-            return new BankPaymentAuthorizationInfoDto({
-              authorisationId,
-              status: scaStatus,
-              chosenScaMethod: chosenScaMethod?.authenticationMethodId,
-              ...(_links?.scaRedirect?.href && {
-                scaRedirect: _links.scaRedirect.href,
+          map(
+            ({ authorisationId, scaStatus, chosenScaMethod, _links }) =>
+              new BankPaymentAuthorizationInfoDto({
+                authorisationId,
+                status:
+                  this.bankStatusMappingService.mapPaymentAuthorizationStatus(
+                    scaStatus,
+                  ),
+                chosenScaMethod: chosenScaMethod?.authenticationMethodId,
+                ...(_links?.scaRedirect?.href && {
+                  scaRedirect: _links.scaRedirect.href,
+                }),
               }),
-            });
-          }),
+          ),
         ),
     );
   }

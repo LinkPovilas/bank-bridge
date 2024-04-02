@@ -6,6 +6,7 @@ import sebSwedenConfig, {
 import { SebSwedenPaymentsService } from './seb-sweden-payments.service';
 import { SebSwedenPaymentsController } from './seb-sweden-payments.controller';
 import { HttpClientModule } from '../../../common/utils/http/http-client.module';
+import { BankPaymentMappingModule } from '../../../common/utils/bank-status-mapping/bank-status-mapping.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { HttpClientModule } from '../../../common/utils/http/http-client.module'
       inject: [ConfigService],
     }),
     ConfigModule.forFeature(sebSwedenConfig),
+    BankPaymentMappingModule,
   ],
   providers: [SebSwedenPaymentsService],
   controllers: [SebSwedenPaymentsController],
