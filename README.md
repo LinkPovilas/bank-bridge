@@ -6,6 +6,7 @@ WORK IN PROGRESS: Bank API integration with NestJS
 
 ```bash
 $ npm install
+$ docker-compose up -d
 ```
 
 ## Running the app
