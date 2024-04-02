@@ -16,6 +16,7 @@ import { UsersModule } from './users/users.module';
       cache: true,
       expandVariables: true,
     }),
+    // TODO: Move to config
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
