@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthService register should create a new user 1`] = `
+{
+  "approved": false,
+  "email": "test@test.eu",
+  "id": Any<Number>,
+  "password": Any<String>,
+  "role": "service",
+  "username": "test",
+}
+`;
+
+exports[`AuthService validateUser should return user if credentials are valid 1`] = `
+{
+  "approved": false,
+  "email": "test@test.eu",
+  "id": Any<Number>,
+  "role": "service",
+  "username": "test",
+}
+`;

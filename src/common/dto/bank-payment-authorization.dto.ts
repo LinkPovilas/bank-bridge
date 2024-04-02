@@ -1,5 +1,5 @@
-import { Exclude, Expose, Transform } from 'class-transformer';
-import { mapToBankPaymentAuthorizationStatus } from '../utils/bank/bank-payment.utils';
+import { Exclude, Expose } from 'class-transformer';
+import { BankPaymentAuthorizationStatus } from '../enums/bank-payment-authorization-status.enum';
 
 @Exclude()
 export class BankPaymentAuthorizationDto {
@@ -7,8 +7,7 @@ export class BankPaymentAuthorizationDto {
   authorisationId: string;
 
   @Expose()
-  @Transform(({ value }) => mapToBankPaymentAuthorizationStatus(value))
-  status: string;
+  status: BankPaymentAuthorizationStatus;
 
   @Expose()
   chosenScaMethod: string;

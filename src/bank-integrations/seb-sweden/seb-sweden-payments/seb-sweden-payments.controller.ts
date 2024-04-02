@@ -1,10 +1,14 @@
 import { Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 import { SebSwedenPaymentsService } from './seb-sweden-payments.service';
 import { CreateBankPaymentDto } from '../../../common/dto/create-bank-payment.dto';
 import { HeaderName } from '../../../common/enums/header-name.enum';
+import { Roles } from '../../../common/decorators/roles.decorator';
+import { Role } from '../../../common/enums/role.enum';
 
+@ApiBasicAuth()
 @ApiTags('seb-sweden')
+@Roles(Role.SERVICE)
 @Controller({ version: '1' })
 export class SebSwedenPaymentsController {
   constructor(

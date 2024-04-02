@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from '../../common/enums/role.enum';
 
 @Entity()
 export class User {
@@ -16,9 +17,8 @@ export class User {
   @Exclude()
   password: string;
 
-  // TODO: upadate this [service, admin]
-  @Column({ default: 'service' })
-  role: string;
+  @Column({ default: Role.SERVICE })
+  role: Role;
 
   @Column({ default: false })
   approved: boolean;
